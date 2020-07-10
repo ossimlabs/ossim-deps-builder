@@ -52,7 +52,7 @@ node(POD_LABEL){
         {
             withDockerRegistry(credentialsId: 'dockerCredentials', url: "https://${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}") {
                 sh """
-                  docker build --network=host -t ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}/gradle-docker-builder:$VERSION .
+                  docker build --network=host -t ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}/ossim-deps-builder:$VERSION .
                 """
             }
         }
@@ -63,7 +63,7 @@ node(POD_LABEL){
         {
             withDockerRegistry(credentialsId: 'dockerCredentials', url: "https://${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}") {
                 sh """
-                  docker push ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}/gradle-docker-builder:$VERSION
+                  docker push ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}/ossim-deps-builder:$VERSION
                 """
             }
         }
