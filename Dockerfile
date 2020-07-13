@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM ubuntu:latest
 ENV OSSIM_DEV_HOME=/work \
     OSSIM_HOME=/work/ossim \
     OSSIM_BUILD_DIR=/work/build \
@@ -12,9 +12,9 @@ ENV OSSIM_DEV_HOME=/work \
     LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64:$PATH \
     JAVA_HOME=/usr/lib/jvm/java
 
-RUN apk add -y epel-release deltarpm \
+RUN apt-get install -y epel-release deltarpm \
                    https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm \
-    && apk add -y \
+    && apt-get install -y \
                 wget git gcc cmake make autoconf automake libtool nasm yasm gnutls-devel \
                 libass-devel libbluray-devel libmodplug-devel lame-devel openjpeg2-devel librsvg2-devel soxr-devel speex-devel \
                 libtheora-devel libvorbis-devel xz-devel SDL2-devel java-1.8.0-openjdk-devel \
