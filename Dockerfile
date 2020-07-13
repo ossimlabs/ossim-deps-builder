@@ -12,7 +12,7 @@ ENV OSSIM_DEV_HOME=/work \
     LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64:$PATH \
     JAVA_HOME=/usr/lib/jvm/java
 
-RUN apt-get update -qq && sudo apt-get -y install \
+RUN apt-get update -qq && apt-get -y install \
   autoconf \
   automake \
   build-essential \
