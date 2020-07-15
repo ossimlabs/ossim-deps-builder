@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM nexus-docker-public-group.ossim.io/centos:7
 ENV OSSIM_DEV_HOME=/work \
     OSSIM_HOME=/work/ossim \
     OSSIM_BUILD_DIR=/work/build \
@@ -12,28 +12,12 @@ ENV OSSIM_DEV_HOME=/work \
     LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64:$PATH \
     JAVA_HOME=/usr/lib/jvm/java
 
-ARG DEBIAN_FRONTEND=noninteractive
-ENV TZ=America/New_York
-RUN apt-get update -qq && apt-get -y install \
-  autoconf \
-  automake \
-  build-essential \
-  cmake \
-  git-core \
-  libass-dev \
-  libfreetype6-dev \
-  libgnutls28-dev \
-  libsdl2-dev \
-  libtool \
-  libva-dev \
-  libvdpau-dev \
-  libvorbis-dev \
-  libxcb1-dev \
-  libxcb-shm0-dev \
-  libxcb-xfixes0-dev \
-  pkg-config \
-  texinfo \
-  wget \
-  yasm \
-  zlib1g-dev \
-  libx264-dev
+
+RUN yum install -y epel-release deltarpm \
+                   https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm \
+    && yum install -y \
+                wget git gcc-c++ cmake make autoconf automake libtool nasm yasm gnutls-devel \
+                libass-devel libbluray-devel libmodplug-devel lame-devel openjpeg2-devel librsvg2-devel soxr-devel speex-devel \
+                libtheora-devel libvorbis-devel xz-devel SDL2-devel java-1.8.0-openjdk-devel \
+                libgeotiff15-devel geos38-devel gdal30-devel libjpeg-turbo-devel libjpeg-turbo-devel libcurl-devel curl cmake3 \
+                which unzip zip ant swig3 json-c-devel
