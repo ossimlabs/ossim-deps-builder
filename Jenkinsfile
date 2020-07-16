@@ -46,28 +46,54 @@ node(POD_LABEL){
         }
         load "common-variables.groovy"
     }
-    stage (" Build Docker App")
+    stage (" Build centos docker App")
     {
         container('docker') 
         {
             withDockerRegistry(credentialsId: 'dockerCredentials', url: "https://${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}") {
                 sh """
-                  docker build --network=host -t ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}/ossim-deps-builder:$VERSION .
+                  docker build --network=host -t ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}/ossim-deps-builder-centos:$VERSION ./centos
                 """
             }
         }
     }
-    stage ("Push Docker App")
+
+    stage (" Build alpine docker App")
+    {
+        container('docker') 
+        {
+            withDockerRegistry(credentialsId: 'dockerCredentials', url: "https://${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}") {
+                sh """
+                  docker build --network=host -t ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}/ossim-deps-builder-alpine:$VERSION ./alpine
+                """
+            }
+        }
+    }
+
+    stage ("Push centos docker App")
     {
         container('docker')
         {
             withDockerRegistry(credentialsId: 'dockerCredentials', url: "https://${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}") {
                 sh """
-                  docker push ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}/ossim-deps-builder:$VERSION
+                  docker push ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}/ossim-deps-builder-centos:$VERSION
                 """
             }
         }
     }
+
+    stage ("Push alpine docker App")
+    {
+        container('docker')
+        {
+            withDockerRegistry(credentialsId: 'dockerCredentials', url: "https://${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}") {
+                sh """
+                  docker push ${DOCKER_REGISTRY_PUBLIC_UPLOAD_URL}/ossim-deps-builder-alpine:$VERSION
+                """
+            }
+        }
+    }
+
 	stage("Clean Workspace"){
     if ("${CLEAN_WORKSPACE}" == "true")
       step([$class: 'WsCleanup'])
